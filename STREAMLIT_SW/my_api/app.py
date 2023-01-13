@@ -80,20 +80,20 @@ choice_nom_fr = ['Chêne', 'Acacia de Constantinople', 'Ailante', 'Alisier blanc
 
 st.subheader('API SUR LES ARBRES REMARQUABLES')
 
+url = st.text_input('Entrez l\'URL partagé')
+
 nom_fr = st.selectbox('Choisissez le nom d\'arbre de votre choix', choice_nom_fr)
 commune = st.selectbox('Choisissez la commune des Hauts-de-Seine', choice_commune)
 etat = st.selectbox('Choisissez l\'état phytosanitaire', choice_etat)
 sol = st.selectbox('Choisissez le type de sol', choice_sol)
 circonf = st.number_input(f'Entrez une circonférence comprise entre 0.5 et 6.00', min_value=0.5, max_value=6.00, value=2.8)
-#circonf = st.text_input(f'Merci d\'entrer une valeur comprise entre 0.5 et 6.00', '2.80')
 envergure = st.number_input(f'Entrez une envergure comprise entre 2.5 et 40.00', min_value=2.5, max_value=40.00, value=20.00)
-#envergure = st.text_input(f'Merci d\'entrer une valeur comprise entre 2.5 et 40.00', '20.00')
 clic = st.button('Try')
 
 
-def the_choice():
-    req = requests.get(f'https://f660-185-175-148-123.eu.ngrok.io/?nom_fr={nom_fr}&?commune={commune.upper()}&?etat={etat}&?sol={sol}&?circonf={circonf}&?envergure={envergure}').json()
+def the_choice(url_send):
+    req = requests.get(f'{url_send}/?nom_fr={nom_fr}&commune={commune.upper()}&etat={etat}&sol={sol}&circonf={circonf}&envergure={envergure}').json()
     return st.write(f"Avec ces paramètres, on prédit que l\'arbre mesurera {req['prediction']}")
 
 if clic:
-    the_choice()
+    the_choice(url)
